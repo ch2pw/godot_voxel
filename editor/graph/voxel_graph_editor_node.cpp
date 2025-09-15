@@ -22,6 +22,16 @@ VoxelGraphEditorNode *VoxelGraphEditorNode::create(const VoxelGraphFunction &gra
 	VoxelGraphEditorNode *node_view = memnew(VoxelGraphEditorNode);
 	node_view->set_position_offset(graph.get_node_gui_position(node_id) * EDSCALE);
 
+	// Don't translate title, it shows the node's name
+	{
+		Node *titlebar = node_view->get_titlebar_hbox();
+		if (titlebar != nullptr) {
+			set_node_auto_translate_mode(*titlebar, zylann::godot::AUTO_TRANSLATE_MODE_DISABLED);
+		} else {
+			ZN_PRINT_ERROR("Title bar is null?");
+		}
+	}
+
 	node_view->update_title(graph, node_id);
 
 	node_view->_node_id = node_id;
